@@ -29,9 +29,10 @@ class PromocaoController {
     }
 
     @PostMapping
-    fun createPromocao(@RequestBody promocao: Promocao): ResponseEntity<Unit> {
+    fun createPromocao(@RequestBody promocao: Promocao): ResponseEntity<Map<String, String>> {
         this.promocaoService.create(promocao)
-        return ResponseEntity(Unit, HttpStatus.CREATED)
+        val map = mapOf("message" to "OK")
+        return ResponseEntity(map, HttpStatus.CREATED)
     }
 
     @DeleteMapping("/{id}")
