@@ -19,7 +19,7 @@ class PromocaoController {
 
     @GetMapping
     fun getAllPromocoes(@RequestParam(required = false, defaultValue = "") localFilter: String): ResponseEntity<List<Promocao>> {
-        return ResponseEntity(this.promocaoService.searchByLocal(localFilter), HttpStatus.OK)
+        return ResponseEntity(this.promocaoService.getAll(), HttpStatus.OK)
     }
 
     @GetMapping("/{id}")
@@ -62,4 +62,8 @@ class PromocaoController {
 
         return ResponseEntity(Unit, status)
     }
+
+    @GetMapping("/count")
+    fun count(): ResponseEntity<Map<String, Long>> =
+        ResponseEntity.ok().body(mapOf("count" to this.promocaoService.count()))
 }
