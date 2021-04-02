@@ -1,5 +1,7 @@
 package com.acme.tour.controller
 
+import com.acme.tour.exception.PromocaoNotFoundException
+import com.acme.tour.model.ErrorMessage
 import com.acme.tour.model.Promocao
 import com.acme.tour.service.PromocaoService
 import org.springframework.beans.factory.annotation.Autowired
@@ -21,11 +23,13 @@ class PromocaoController {
     }
 
     @GetMapping("/{id}")
-    fun getPromocaoById(@PathVariable id: Long): ResponseEntity<Promocao?> {
+    fun getPromocaoById(@PathVariable id: Long): ResponseEntity<Any> {
         var promocao = this.promocaoService.getById(id)
-        var status = if(promocao == null) HttpStatus.NOT_FOUND else HttpStatus.OK
 
-        return ResponseEntity(promocao, status)
+        return if(promocao != null)
+            ResponseEntity(promocao, HttpStatus.OK)
+        else
+            ResponseEntity(ErrorMessage("Promocao não localizada", "Promoção ${id} não localizada."), HttpStatus.NOT_FOUND)
     }
 
     @PostMapping
