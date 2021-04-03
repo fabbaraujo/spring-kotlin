@@ -18,8 +18,10 @@ class PromocaoController {
     lateinit var promocaoService: PromocaoService
 
     @GetMapping
-    fun getAllPromocoes(@RequestParam(required = false, defaultValue = "") localFilter: String): ResponseEntity<List<Promocao>> {
-        return ResponseEntity(this.promocaoService.getAll(), HttpStatus.OK)
+    fun getAllPromocoes(@RequestParam(required = false, defaultValue = "0") start: Int,
+                        @RequestParam(required = false, defaultValue = "3") size: Int)
+    : ResponseEntity<List<Promocao>> {
+        return ResponseEntity(this.promocaoService.getAll(start, size), HttpStatus.OK)
     }
 
     @GetMapping("/{id}")
@@ -66,4 +68,10 @@ class PromocaoController {
     @GetMapping("/count")
     fun count(): ResponseEntity<Map<String, Long>> =
         ResponseEntity.ok().body(mapOf("count" to this.promocaoService.count()))
+
+    @GetMapping("/ordenados")
+    fun ordenados() = this.promocaoService.getAllSortedByLocal()
+
+    @GetMapping("/menor-que-9000")
+    fun getAllMenores() = this.promocaoService.getAllByPrecoMenorQue9000()
 }
