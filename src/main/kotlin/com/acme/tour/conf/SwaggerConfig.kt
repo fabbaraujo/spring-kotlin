@@ -18,7 +18,7 @@ class SwaggerConfig {
     fun lojaApi(): Docket {
         return Docket(DocumentationType.SWAGGER_2)
             .select()
-            .apis(RequestHandlerSelectors.any())
+            .apis(RequestHandlerSelectors.basePackage("com.acme.tour"))
             .paths(PathSelectors.any())
             .build()
             .apiInfo(metaData())
